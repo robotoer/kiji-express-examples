@@ -1,79 +1,99 @@
-Examples for Chopsticks
-========================
+Examples for KijiChopsticks
+===========================
 
-Chopsticks allows you to write programs using the
-[Scalding API](https://github.com/twitter/scalding) that read and writes Kiji tables.
+KijiChopsticks allows you to write programs using the
+[Scalding API](https://github.com/twitter/scalding) that read from and write to Kiji tables.
 
-This project contains an example that counts the words in the 20 Newsgroups data set.
+This project contains an example that counts the words in the
+[20Newsgroups](http://qwone.com/~jason/20Newsgroups/) data set.
 
-The following instructions assume that a functional
-[KijiBento](https://github.com/kijiproject/kiji-bento/) environment has been
-setup and is running, and that you have set up and installed
-[Chopsticks](https://github.com/kijiproject/kiji-chopsticks) with the chop tool on your $PATH.
-This example uses the
-[20Newsgroups](http://qwone.com/~jason/20Newsgroups/) dataset; you should download it
-to load into a Kiji table as outlined below.
+Setup
+-----
 
-If you haven't installed the default Kiji instance yet, do so first:
+*   Set up a functioning [KijiBento](https://github.com/kijiproject/kiji-bento/) environment. For
+    installation instructions see: [http://www.kiji.org/](http://www.kiji.org/#trykijinow).
+*   Install [KijiChopsticks](https://github.com/kijiproject/kiji-chopsticks) and put the `chop`
+    tool on your `$PATH`.
+*   Download the [20Newsgroups](http://qwone.com/~jason/20Newsgroups/) data set. This data set will
+    be loaded into a Kiji table.
 
-    kiji install
+        curl -O http://qwone.com/~jason/20Newsgroups/20news-18828.tar.gz
+        tar xvf 20news-18828.tar.gz
+
+*   Start a bento cluster:
+
+        bento start
+
+*   If you haven't installed the default Kiji instance yet, do so first:
+
+        kiji install
+
+Building from source
+--------------------
+
+These examples are set up to be built using [Apache Maven](http://maven.apache.org/). To build a jar
+containing the following examples
+
+    git clone git@github.com:kijiprojct/kiji-chopsticks-examples.git
+    cd kiji-chopsticks-examples/
+    mvn package
+
+The compiled jar can be found in
+
+    target/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar
 
 Load the data
 -------------
 
-Next, create and populate the 'words' table:
+Next, create and populate the 'postings' table:
 
-    kiji-schema-shell --file=ddl/words.ddl
+    kiji-schema-shell --file=ddl/postings.ddl
     chop jar lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
         org.kiji.chopsticks.examples.NewsgroupLoader \
-        kiji://.env/default/words <path/to/newsgroups/root/>
+        kiji://.env/default/postings <path/to/newsgroups/root/>
+
+This table contains one newsgroup post per row. To check that the table has been populated
+correctly:
+
+    kiji scan kiji://.env/default/postings --max-rows=10
+
+You should see some newsgroup posts get printed to the screen.
 
 Read from a Kiji table
 -------------------------
+
+The following chopsticks word count job reads newsgroup posts from the `info:post` column of the
+`postings` Kiji table splitting each post up into the words it is composed of. The occurrences of
+each word are then counted by using the
+[`groupBy`](https://github.com/twitter/scalding/wiki/Getting-Started#groupby) aggregation method.
 
 Run the word count, outputting to hdfs:
 
     chop hdfs lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
         org.kiji.chopsticks.examples.NewsgroupWordCount \
-        --input kiji://.env/default/words --output ./wordcounts.tsv
+        --input kiji://.env/default/postings --output ./wordcounts.tsv
 
 Check the results of the job:
 
     hadoop fs -cat ./wordcounts.tsv/part-00000 | grep "\<foo\>"
 
-You should see something similar to:
+You should see:
 
-    "'foo'\''bar'". 1
-    "foo"); 1
-    "foo'bar",  1
-    "foo.txt  1
-    "foo.txt" 1
-    "foo:0",  1
-    <foo> 1
-    <foo@cs.rice.edu> 1
-    >foo  1
-    `foo' 1
-    bar!foo!frotz 1
-    foo 2
-    foo%bar.bitnet@mitvma.mit.edu 1
-    foo-boo 1
-    foo/file  1
-    foo:  1
-    foo@mhfoo.pc.my 1
+    foo     56
 
 Write to a Kiji table
 -----------------------
 
-This project also contains a trivial example of writing to a Kiji table.
-NewsgroupWordDoubler reads from a Kiji table and, for each word, writes
-a doubled version of the word to the "info:doubleword" column.
+This project also contains an example of writing to a Kiji table. NewsgroupPostCounter reads
+posts from the `info:post` column of the `postings` Kiji table and counts the number of words in
+each post which is then written to the `info:postLength` column of the `postings` table.
 
-To run the doubler, run:
+To run the posting word counter, run:
 
     chop hdfs lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
-        org.kiji.chopsticks.examples.NewsgroupWordDoubler \
-        --input kiji://.env/default/words --output kiji://.env/default/words
+        org.kiji.chopsticks.examples.NewsgroupPostCounter \
+        --input kiji://.env/default/postings --output kiji://.env/default/postings
 
 Check the output in Kiji:
 
-    kiji scan kiji://.env/default/words --max-rows=10
+    kiji scan kiji://.env/default/postings --max-rows=10

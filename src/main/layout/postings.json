@@ -1,7 +1,7 @@
-// JSON version of words.ddl
+// JSON version of postings.ddl
 {
-  "name" : "words",
-  "description" : "Words in the 20Newsgroups dataset.",
+  "name" : "postings",
+  "description" : "Newsgroup posts in the 20Newsgroups dataset.",
   "keys_format" : {
     "org.kiji.schema.avro.RowKeyFormat2" : {
       "encoding" : "FORMATTED",
@@ -28,8 +28,8 @@
       "description" : "Basic information",
       "columns" : [ {
         "id" : 1,
-        "name" : "word",
-        "description" : "The word.",
+        "name" : "post",
+        "description" : "Text of the post.",
         "column_schema" : {
           "storage" : "UID",
           "type" : "INLINE",
@@ -37,12 +37,21 @@
         }
       }, {
         "id" : 2,
-        "name" : "doubleword",
-        "description" : "Twice the word.",
+        "name" : "group",
+        "description" : "The newsgroup that this posting belongs to.",
         "column_schema" : {
           "storage" : "UID",
           "type" : "INLINE",
           "value" : "\"string\""
+        }
+      }, {
+        "id" : 3,
+        "name" : "postLength",
+        "description" : "The number of words in this posting.",
+        "column_schema" : {
+          "storage" : "UID",
+          "type" : "INLINE",
+          "value" : "\"int\""
         }
       } ]
     } ]
@@ -50,4 +59,3 @@
   "version" : "layout-1.1",
   "layout_id" : "1"
 }
-
