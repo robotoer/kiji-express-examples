@@ -31,6 +31,17 @@
   <includeBaseDirectory>true</includeBaseDirectory>
 
   <fileSets>
+    <!-- source directory -->
+    <fileSet>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <outputDirectory>/</outputDirectory>
+      <fileMode>0644</fileMode>
+      <includes>
+        <include>src/**</include>
+      </includes>
+      <filtered>false</filtered>
+    </fileSet>
+    <!-- text files -->
     <fileSet>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory></outputDirectory>
@@ -40,6 +51,7 @@
         <include>NOTICE.txt</include>
         <include>LICENSE.txt</include>
         <include>README.md</include>
+        <include>pom.xml</include>
       </includes>
       <filtered>true</filtered>
     </fileSet>
