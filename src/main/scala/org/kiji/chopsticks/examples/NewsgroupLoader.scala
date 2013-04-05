@@ -24,9 +24,6 @@ import java.io.File
 import scala.actors.Futures.future
 import scala.io.Source
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
 import org.kiji.chopsticks.Resources.doAndClose
 import org.kiji.chopsticks.Resources.doAndRelease
 import org.kiji.schema.Kiji
@@ -56,8 +53,6 @@ import org.kiji.schema.util.ResourceUtils
  * </p>
  */
 object NewsgroupLoader {
-  private val logger: Logger = LoggerFactory.getLogger(this.getClass)
-
   /**
    * Runs the loader.
    *
@@ -88,7 +83,6 @@ object NewsgroupLoader {
 
                         // Write the post to the table.
                         val postPath = "%s/%s".format(newsgroup.getName(), posting.getName())
-                        logger.info("Writing post %s...".format(postPath))
 
                         val entityId = table.getEntityId(postPath)
                         writer.put(entityId, "info", "post", text)

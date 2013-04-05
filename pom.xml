@@ -17,16 +17,14 @@
     </license>
   </licenses>
 
-  <parent>
-    <groupId>org.kiji.pom</groupId>
-    <artifactId>root-pom</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
-  </parent>
-
   <properties>
     <chopsticks.version>0.1.0-SNAPSHOT</chopsticks.version>
     <scalding.version>0.8.3</scalding.version>
-    <kiji.version>1.0.1-SNAPSHOT</kiji.version>
+    <kiji-schema.version>1.0.1-SNAPSHOT</kiji-schema.version>
+    <kiji-mapreduce.version>1.0.0-rc6-SNAPSHOT</kiji-mapreduce.version>
+    <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
+    <log4j.version>1.2.16</log4j.version>
+    <scala.version>2.9.2</scala.version>
     <scalatest.version>2.0.M5b</scalatest.version>
   </properties>
 
@@ -41,19 +39,14 @@
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <scope>provided</scope>
+      <version>${scala.version}</version>
     </dependency>
 
     <!-- Kiji -->
     <dependency>
       <groupId>org.kiji.schema</groupId>
       <artifactId>kiji-schema</artifactId>
-      <version>${kiji.version}</version>
+      <version>${kiji-schema.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -65,7 +58,7 @@
       <scope>compile</scope>
     </dependency>
 
-    <!--  Testing-->
+    <!-- Testing -->
    <dependency>
       <groupId>org.kiji.testing</groupId>
       <artifactId>fake-hbase</artifactId>
@@ -75,7 +68,7 @@
     <dependency>
       <groupId>org.kiji.schema</groupId>
       <artifactId>kiji-schema</artifactId>
-      <version>${kiji.version}</version>
+      <version>${kiji-schema.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -99,6 +92,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
