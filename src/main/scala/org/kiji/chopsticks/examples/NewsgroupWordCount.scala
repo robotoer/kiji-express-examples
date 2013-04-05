@@ -19,14 +19,11 @@
 
 package org.kiji.chopsticks.examples
 
-import java.util.NavigableMap
-
 import com.twitter.scalding.Args
 import com.twitter.scalding.Job
 import com.twitter.scalding.Tsv
-import org.apache.avro.util.Utf8
 
-import org.kiji.chopsticks.DSL.KijiInput
+import org.kiji.chopsticks.DSL._
 
 /**
  * Counts the words from the newsgroup table.
@@ -42,12 +39,9 @@ class NewsgroupWordCount(args: Args) extends Job(args) {
 
   KijiInput(inUri)("info:post" -> 'post)
       // Find all the words in a newsgroup posting's text.
-      .flatMap('post -> 'word) { cell: NavigableMap[Long, Utf8] =>
+      .flatMap('post -> 'word) { slice: Map[Long, String] =>
         // Get the posting text.
-        val text = cell
-            .firstEntry()
-            .getValue()
-            .toString()
+        val text = getMostRecent(slice)
 
         // Regular expression for matching words. For more information see:
         // http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html.

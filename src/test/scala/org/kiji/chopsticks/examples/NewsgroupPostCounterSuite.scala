@@ -20,6 +20,7 @@
 package org.kiji.chopsticks.examples
 
 import java.util.NavigableMap
+
 import scala.collection.mutable.Buffer
 
 import com.twitter.scalding.JobTest
@@ -49,7 +50,7 @@ class NewsgroupPostCounterSuite extends KijiSuite {
   }
 
   // A function to validate the test output.
-  def validateTest(outputBuffer: Buffer[(EntityId, NavigableMap[Long, Int])]) {
+  def validateTest(outputBuffer: Buffer[(EntityId, Map[Long, Int])]) {
     assert(4 === outputBuffer.size)
 
     // Validate that the output is as expected.
