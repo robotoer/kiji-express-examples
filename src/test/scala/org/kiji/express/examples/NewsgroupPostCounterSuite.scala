@@ -17,19 +17,15 @@
  * limitations under the License.
  */
 
-package org.kiji.chopsticks.examples
-
-import java.util.NavigableMap
+package org.kiji.express.examples
 
 import scala.collection.mutable.Buffer
 
 import com.twitter.scalding.JobTest
-import com.twitter.scalding.Tsv
-import org.apache.avro.util.Utf8
 
-import org.kiji.chopsticks.DSL._
-import org.kiji.chopsticks.KijiSuite
-import org.kiji.chopsticks.Resources.doAndRelease
+import org.kiji.express._
+import org.kiji.express.DSL._
+import org.kiji.express.Resources._
 import org.kiji.schema.EntityId
 import org.kiji.schema.KijiTable
 import org.kiji.schema.layout.KijiTableLayout
@@ -38,26 +34,27 @@ import org.kiji.schema.layout.KijiTableLayouts
 class NewsgroupPostCounterSuite extends KijiSuite {
   // Set up Kiji table for input.
   val layout: KijiTableLayout = {
-    KijiTableLayouts.getTableLayout("org/kiji/chopsticks/examples/layout/postings.json")
+    KijiTableLayouts.getTableLayout("org/kiji/express/examples/layout/postings.json")
   }
-  val testInput: List[(EntityId, NavigableMap[Long, Utf8])] = List(
-      ( id("row01"), singleton(new Utf8("hello hello hello     hello")) ),
-      ( id("row02"), singleton(new Utf8("hello    \nworld")) ),
-      ( id("row03"), singleton(new Utf8("world")) ),
-      ( id("row04"), singleton(new Utf8("hello")) ))
+  val testInput: List[(EntityId, KijiSlice[String])] = List(
+      ( id("row01"), slice("info:post", (0L, "hello hello hello     hello")) ),
+      ( id("row02"), slice("info:post", (0L, "hello    \nworld")) ),
+      ( id("row03"), slice("info:post", (0L, "world")) ),
+      ( id("row04"), slice("info:post", (0L, "hello")) ))
+
   val uri: String = doAndRelease(makeTestKijiTable(layout)) { table: KijiTable =>
     table.getURI().toString()
   }
 
   // A function to validate the test output.
-  def validateTest(outputBuffer: Buffer[(EntityId, Map[Long, Int])]) {
+  def validateTest(outputBuffer: Buffer[(EntityId, KijiSlice[Int])]) {
     assert(4 === outputBuffer.size)
 
     // Validate that the output is as expected.
-    assert(4 === getMostRecent(outputBuffer(0)._2))
-    assert(2 === getMostRecent(outputBuffer(1)._2))
-    assert(1 === getMostRecent(outputBuffer(2)._2))
-    assert(1 === getMostRecent(outputBuffer(3)._2))
+    assert(4 === outputBuffer(0)._2.getFirstValue())
+    assert(2 === outputBuffer(1)._2.getFirstValue())
+    assert(1 === outputBuffer(2)._2.getFirstValue())
+    assert(1 === outputBuffer(3)._2.getFirstValue())
   }
 
   test("NewsgroupPostCounter counts words using scalding's local mode.") {

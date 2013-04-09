@@ -3,8 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.kiji.chopsticks</groupId>
-  <artifactId>kiji-chopsticks-examples</artifactId>
+  <groupId>org.kiji.express</groupId>
+  <artifactId>kiji-express-examples</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <inceptionYear>2013</inceptionYear>
@@ -18,7 +18,7 @@
   </licenses>
 
   <properties>
-    <chopsticks.version>0.1.0-SNAPSHOT</chopsticks.version>
+    <express.version>0.1.0-SNAPSHOT</express.version>
     <scalding.version>0.8.3</scalding.version>
     <kiji-schema.version>1.0.1-SNAPSHOT</kiji-schema.version>
     <kiji-mapreduce.version>1.0.0-rc6-SNAPSHOT</kiji-mapreduce.version>
@@ -29,11 +29,11 @@
   </properties>
 
   <dependencies>
-    <!-- Chopsticks -->
+    <!-- KijiExpress -->
     <dependency>
-      <groupId>org.kiji.chopsticks</groupId>
-      <artifactId>kiji-chopsticks</artifactId>
-      <version>${chopsticks.version}</version>
+      <groupId>org.kiji.express</groupId>
+      <artifactId>kiji-express</artifactId>
+      <version>${express.version}</version>
     </dependency>
     <!-- Scala -->
     <dependency>
@@ -79,9 +79,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.kiji.chopsticks</groupId>
-      <artifactId>kiji-chopsticks</artifactId>
-      <version>${chopsticks.version}</version>
+      <groupId>org.kiji.express</groupId>
+      <artifactId>kiji-express</artifactId>
+      <version>${express.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -198,8 +198,8 @@
   </repositories>
 
   <scm>
-    <connection>scm:git:git@github.com:kijiproject/kiji-chopsticks-examples.git</connection>
-    <url>scm:git:git@github.com:kijiproject/kiji-chopsticks-examples.git</url>
-    <developerConnection>scm:git:git@github.com:kijiproject/kiji-chopsticks-examples.git</developerConnection>
+    <connection>scm:git:git@github.com:kijiproject/kiji-express-examples.git</connection>
+    <url>scm:git:git@github.com:kijiproject/kiji-express-examples.git</url>
+    <developerConnection>scm:git:git@github.com:kijiproject/kiji-express-examples.git</developerConnection>
   </scm>
 </project>

@@ -17,19 +17,20 @@
  * limitations under the License.
  */
 
-package org.kiji.chopsticks.examples
+package org.kiji.express.examples
 
 import com.twitter.scalding.Args
 import com.twitter.scalding.Job
 
-import org.kiji.chopsticks.DSL._
+import org.kiji.express._
+import org.kiji.express.DSL._
 
 /**
  * Counts the words in each posting in the newsgroup table.
  *
  * Usage:
- *   chop hdfs <path/to/this/jar> \
- *       org.kiji.chopsticks.examples.NewsgroupPostCounter \
+ *   express hdfs <path/to/this/jar> \
+ *       org.kiji.express.examples.NewsgroupPostCounter \
  *       --table kiji://.env/default/postings
  */
 class NewsgroupPostCounter(args: Args) extends Job(args) {
@@ -37,9 +38,9 @@ class NewsgroupPostCounter(args: Args) extends Job(args) {
 
   KijiInput(tableUri)("info:post" -> 'post)
       // Count the words in each post.
-      .map('post -> 'postLength) { slice: Map[Long, String] =>
+      .map('post -> 'postLength) { slice: KijiSlice[String] =>
         // Get the posting text.
-        val text = getMostRecent(slice)
+        val text = slice.getFirstValue()
 
         // Regular expression for matching words. For more information see:
         // http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html.

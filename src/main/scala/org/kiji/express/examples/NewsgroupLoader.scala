@@ -17,20 +17,18 @@
  * limitations under the License.
  */
 
-package org.kiji.chopsticks.examples
+package org.kiji.express.examples
 
 import java.io.File
 
 import scala.actors.Futures.future
 import scala.io.Source
 
-import org.kiji.chopsticks.Resources.doAndClose
-import org.kiji.chopsticks.Resources.doAndRelease
+import org.kiji.express.Resources._
 import org.kiji.schema.Kiji
 import org.kiji.schema.KijiTable
 import org.kiji.schema.KijiTableWriter
 import org.kiji.schema.KijiURI
-import org.kiji.schema.util.ResourceUtils
 
 /**
  * <p>
@@ -42,7 +40,7 @@ import org.kiji.schema.util.ResourceUtils
  * <p>
  *   This loader can be run from a command line shell as follows:
  *   <code>
- *     chop jar <path/to/this/jar> org.kiji.chopsticks.examples.NewsgroupLoader \
+ *     express jar <path/to/this/jar> org.kiji.express.examples.NewsgroupLoader \
  *         <kiji://uri/to/kiji/table> <path/to/newsgroups/root/>
  *   </code>
  * </p>

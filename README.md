@@ -1,7 +1,7 @@
-Examples for KijiChopsticks
+Examples for KijiExpress
 ===========================
 
-KijiChopsticks allows you to write programs using the
+KijiExpress allows you to write programs using the
 [Scalding API](https://github.com/twitter/scalding) that read from and write to Kiji tables.
 
 This project contains an example that counts the words in the
@@ -12,7 +12,7 @@ Setup
 
 *   Set up a functioning [KijiBento](https://github.com/kijiproject/kiji-bento/) environment. For
     installation instructions see: [http://www.kiji.org/](http://www.kiji.org/#trykijinow).
-*   Install [KijiChopsticks](https://github.com/kijiproject/kiji-chopsticks) and put the `chop`
+*   Install [KijiExpress](https://github.com/kijiproject/kiji-express) and put the `express`
     tool on your `$PATH`.
 *   Download the [20Newsgroups](http://qwone.com/~jason/20Newsgroups/) data set. This data set will
     be loaded into a Kiji table.
@@ -34,22 +34,22 @@ Building from source
 These examples are set up to be built using [Apache Maven](http://maven.apache.org/). To build a jar
 containing the following examples
 
-    git clone git@github.com:kijiprojct/kiji-chopsticks-examples.git
-    cd kiji-chopsticks-examples/
+    git clone git@github.com:kijiprojct/kiji-express-examples.git
+    cd kiji-express-examples/
     mvn package
 
 The compiled jar can be found in
 
-    target/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar
+    target/kiji-express-examples-0.1.0-SNAPSHOT.jar
 
 Load the data
 -------------
 
-Next, create and populate the 'postings' table:
+Next, create and populate the `postings` table:
 
     kiji-schema-shell --file=ddl/postings.ddl
-    chop jar lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
-        org.kiji.chopsticks.examples.NewsgroupLoader \
+    express jar lib/kiji-express-examples-0.1.0-SNAPSHOT.jar \
+        org.kiji.express.examples.NewsgroupLoader \
         kiji://.env/default/postings <path/to/newsgroups/root/>
 
 This table contains one newsgroup post per row. To check that the table has been populated
@@ -62,15 +62,15 @@ You should see some newsgroup posts get printed to the screen.
 Read from a Kiji table
 -------------------------
 
-The following chopsticks word count job reads newsgroup posts from the `info:post` column of the
+The following KijiExpress word count job reads newsgroup posts from the `info:post` column of the
 `postings` Kiji table splitting each post up into the words it is composed of. The occurrences of
 each word are then counted by using the
 [`groupBy`](https://github.com/twitter/scalding/wiki/Getting-Started#groupby) aggregation method.
 
 Run the word count, outputting to hdfs:
 
-    chop hdfs lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
-        org.kiji.chopsticks.examples.NewsgroupWordCount \
+    express job lib/kiji-express-examples-0.1.0-SNAPSHOT.jar \
+        org.kiji.express.examples.NewsgroupWordCount --hdfs \
         --input kiji://.env/default/postings --output ./wordcounts.tsv
 
 Check the results of the job:
@@ -90,8 +90,8 @@ each post which is then written to the `info:postLength` column of the `postings
 
 To run the posting word counter, run:
 
-    chop hdfs lib/kiji-chopsticks-examples-0.1.0-SNAPSHOT.jar \
-        org.kiji.chopsticks.examples.NewsgroupPostCounter \
+    express job lib/kiji-express-examples-0.1.0-SNAPSHOT.jar \
+        org.kiji.express.examples.NewsgroupPostCounter --hdfs \
         --input kiji://.env/default/postings --output kiji://.env/default/postings
 
 Check the output in Kiji:

@@ -17,20 +17,21 @@
  * limitations under the License.
  */
 
-package org.kiji.chopsticks.examples
+package org.kiji.express.examples
 
 import com.twitter.scalding.Args
 import com.twitter.scalding.Job
 import com.twitter.scalding.Tsv
 
-import org.kiji.chopsticks.DSL._
+import org.kiji.express._
+import org.kiji.express.DSL._
 
 /**
  * Counts the words from the newsgroup table.
  *
  * Usage:
- *   chop hdfs <path/to/this/jar> \
- *       org.kiji.chopsticks.examples.NewsgroupWordCount \
+ *   express hdfs <path/to/this/jar> \
+ *       org.kiji.express.examples.NewsgroupWordCount \
  *       --input kiji://.env/default/postings --output ./wordcount.tsv
  */
 class NewsgroupWordCount(args: Args) extends Job(args) {
@@ -39,9 +40,9 @@ class NewsgroupWordCount(args: Args) extends Job(args) {
 
   KijiInput(inUri)("info:post" -> 'post)
       // Find all the words in a newsgroup posting's text.
-      .flatMap('post -> 'word) { slice: Map[Long, String] =>
+      .flatMap('post -> 'word) { slice: KijiSlice[String] =>
         // Get the posting text.
-        val text = getMostRecent(slice)
+        val text = slice.getFirstValue()
 
         // Regular expression for matching words. For more information see:
         // http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html.
