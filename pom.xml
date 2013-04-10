@@ -20,8 +20,8 @@
   <properties>
     <express.version>0.1.0-SNAPSHOT</express.version>
     <scalding.version>0.8.3</scalding.version>
-    <kiji-schema.version>1.0.1-SNAPSHOT</kiji-schema.version>
-    <kiji-mapreduce.version>1.0.0-rc6-SNAPSHOT</kiji-mapreduce.version>
+    <kiji-schema.version>1.0.1</kiji-schema.version>
+    <kiji-mapreduce.version>1.0.0-rc6</kiji-mapreduce.version>
     <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
     <maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
     <log4j.version>1.2.16</log4j.version>
@@ -63,7 +63,7 @@
    <dependency>
       <groupId>org.kiji.testing</groupId>
       <artifactId>fake-hbase</artifactId>
-      <version>0.0.4-SNAPSHOT</version>
+      <version>0.0.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
