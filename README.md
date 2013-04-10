@@ -67,7 +67,13 @@ The following KijiExpress word count job reads newsgroup posts from the `info:po
 each word are then counted by using the
 [`groupBy`](https://github.com/twitter/scalding/wiki/Getting-Started#groupby) aggregation method.
 
+You have two options to run the wordcount: with a script, or a Scalding Job.
+
 Run the word count, outputting to hdfs:
+
+    express script scripts/NewsgroupWordCount.express --hdfs
+
+If you want to run it as a Scalding Job, you can run this instead:
 
     express job lib/kiji-express-examples-0.1.0-SNAPSHOT.jar \
         org.kiji.express.examples.NewsgroupWordCount --hdfs \
@@ -89,6 +95,10 @@ posts from the `info:post` column of the `postings` Kiji table and counts the nu
 each post which is then written to the `info:postLength` column of the `postings` table.
 
 To run the posting word counter, run:
+
+    express script scripts/NewsgroupPostCounter.express --hdfs
+
+Or you can also run it as a Scalding Job:
 
     express job lib/kiji-express-examples-0.1.0-SNAPSHOT.jar \
         org.kiji.express.examples.NewsgroupPostCounter --hdfs \

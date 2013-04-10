@@ -23,6 +23,7 @@
     <kiji-schema.version>1.0.1-SNAPSHOT</kiji-schema.version>
     <kiji-mapreduce.version>1.0.0-rc6-SNAPSHOT</kiji-mapreduce.version>
     <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
+    <maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
     <log4j.version>1.2.16</log4j.version>
     <scala.version>2.9.2</scala.version>
     <scalatest.version>2.0.M5b</scalatest.version>
@@ -97,6 +98,22 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>${maven-assembly-plugin.version}</version>
+        <configuration>
+          <descriptors>
+            <descriptor>${basedir}/src/main/assembly/release.xml</descriptor>
+          </descriptors>
+          <tarLongFileMode>gnu</tarLongFileMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>

@@ -31,14 +31,28 @@
   <includeBaseDirectory>true</includeBaseDirectory>
 
   <fileSets>
-    <!-- source directory -->
+    <!-- source directories -->
     <fileSet>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>/</outputDirectory>
       <fileMode>0644</fileMode>
       <includes>
-        <include>src/**</include>
+        <include>src/test/**</include>
+        <include>src/main/scala/**</include>
+        <include>src/main/layout/**</include>
+        <include>src/main/ddl/**</include>
       </includes>
+      <filtered>false</filtered>
+    </fileSet>
+    <!-- scripts -->
+    <fileSet>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <outputDirectory>scripts/</outputDirectory>
+      <directory>src/main/scripts</directory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+      <fileMode>0644</fileMode>
       <filtered>false</filtered>
     </fileSet>
     <!-- text files -->
