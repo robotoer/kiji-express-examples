@@ -24,7 +24,7 @@
   </parent>
 
   <properties>
-    <express.version>0.1.0-SNAPSHOT</express.version>
+    <express.version>0.1.0</express.version>
   </properties>
 
   <dependencies>
