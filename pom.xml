@@ -23,7 +23,9 @@
   </parent>
 
   <properties>
-    <express.version>0.1.0</express.version>
+    <express.version>0.3.0-SNAPSHOT</express.version>
+    <kiji.framework.version>1.0.1</kiji.framework.version>
+    <scalatest.version>2.0.M5b</scalatest.version>
   </properties>
 
   <dependencies>
@@ -41,6 +43,11 @@
     </dependency>
 
     <!-- Kiji -->
+    <dependency>
+      <groupId>org.kiji.framework</groupId>
+      <artifactId>kiji-framework</artifactId>
+      <version>${kiji.framework.version}</version>
+    </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
